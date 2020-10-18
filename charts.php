@@ -80,11 +80,30 @@
                 ],
                 "animation" => [
                   "onProgress" => "ONPROGRESSCALLBACK",
-                ]
+                ],
+                "tooltips" => [
+                  "mode" => "index",
+                  "custom"    => "TOOLTIPCUSTOMCALLBACK",
+                  "callbacks" => [
+                    "label"   => "TOOLIPLABELCALLBACK",
+                    "footer"  => "TOOLTIPFOOTERCALLBACK"
+                  ],
+                  "cornerRadius" => 4,
+                  "footerFontStyle" => "normal"
+                ],
               ],
             ];
             $config = json_encode($config);
-            $config = str_replace("\"ONPROGRESSCALLBACK\"", "_ => {c.fillStyle=\"#666\";c.font = \"12px sans-serif\";c.fillText(\"Source: ".date("d.m.Y H:i", $this->date->getTimestamp())."\", 4, 16)}", $config);
+
+
+            foreach([
+              "ONPROGRESSCALLBACK"    => "c.fillStyle=\"#666\";c.font = \"12px sans-serif\";c.fillText(\"Source: " . date("d.m.Y H:i", $this->date->getTimestamp()) . "\", 4, 16)",
+              "TOOLTIPCUSTOMCALLBACK" => "console.log(_)",
+              "TOOLIPLABELCALLBACK"   => "if(_.datasetIndex > 0) {return \" \"+__.datasets[_.datasetIndex].label+\": \"+_.yLabel;} return null;",
+              "TOOLTIPFOOTERCALLBACK" => "return \"Total: \" + _[0].yLabel"
+            ] as $k => $v) {
+              $config = str_replace("\"$k\"", "(_,__) => { $v }", $config);
+            }
 
             return "<div><canvas id=\"{$this->id}\"></canvas></div><script>(_=>{var cv = $(\"#{$this->id}\")[0];var c = cv.getContext(\"2d\");new Chart(c,$config)})();";
         }

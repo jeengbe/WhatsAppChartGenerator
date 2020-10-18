@@ -44,9 +44,9 @@ foreach($msgs as $m) {
 $msgsPerWeek  = new LineChart("msgsPerWeek", $source);
 $msgsPerWeek  ->setTitle("Messages per Week");
 $msgsPerWeek  ->setLabels($msgsPerWeekLabels);
-$msgsPerWeek  ->addDataset($con->getDisplayName(), "#ef9a9a", "#ef9a9acc", $msgsPerWeekThem);
-$msgsPerWeek  ->addDataset(ME, "#9FA8DA", "#9FA8DAcc", $msgsPerWeekMe);
-$msgsPerWeek  ->addDataset("Total", "#BDBDBD", "#BDBDBD55", $msgsPerWeekTotal, ["fill" => true]);
+$msgsPerWeek  ->addDataset("Total", "rgba(189,189,189,1)", "rgba(189,189,189,0.3)", $msgsPerWeekTotal, ["fill" => true]);
+$msgsPerWeek  ->addDataset(ME, "rgba(159,168,218,1)", "rgba(159,168,217,0.8)", $msgsPerWeekMe);
+$msgsPerWeek  ->addDataset($con->getDisplayName(), "rgba(239,154,154,1)", "rgba(239,154,154,0.8)", $msgsPerWeekThem);
 
 echo $msgsPerWeek;
 ?>
