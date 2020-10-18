@@ -44,10 +44,11 @@
          * @param string $borderColor
          * @param string $backgroundColor
          * @param (int|float)[] $data
+         * @param array $options
          * @return self
          */
-        function addDataset($label, $borderColor, $backgroundColor, $data) : self {
-          $this->datasets[] = [
+        function addDataset($label, $borderColor, $backgroundColor, $data, $options =  []) : self {
+          $this->datasets[] = array_merge([
             "label"             => $label,
             "borderColor"       => $borderColor,
             "backgroundColor"   => $backgroundColor,
@@ -55,7 +56,7 @@
             "fill"              => false,
             "pointRadius"       => 2,
             "pointHoverRadius"  => 2,
-          ];
+          ], $options);
           return $this;
         }
 
@@ -83,7 +84,7 @@
               ],
             ];
             $config = json_encode($config);
-            $config = str_replace("\"ONPROGRESSCALLBACK\"", "_ => {c.font = \"12px sans-serif\";c.fillText(\"Source: ".date("d.m.Y H:i", $this->date->getTimestamp())."\", 0, 6)}", $config);
+            $config = str_replace("\"ONPROGRESSCALLBACK\"", "_ => {c.fillStyle=\"#666\";c.font = \"12px sans-serif\";c.fillText(\"Source: ".date("d.m.Y H:i", $this->date->getTimestamp())."\", 0, 6)}", $config);
 
             return "<div><canvas id=\"{$this->id}\"></canvas></div><script>(_=>{var cv = $(\"#{$this->id}\")[0];var c = cv.getContext(\"2d\");new Chart(c,$config)})();";
         }

@@ -8,9 +8,17 @@
          * @param int|DateTime $date UNIX-Timestamp or DateTime
          */
         static function formatWeek($date) {
+            $d = $date;
             if($date instanceof DateTime)
                 $date = $date->getTimestamp();
-            return date("Y", $date) . " (" . sprintf('%02d', date('W', $date)) . ")";
+
+            $year = date("Y", $date);
+            $week = (int) date('W', $date);
+            // Day in last year, but first week of next year
+            if($week == 1 && date("m", $date) == "12") {
+                $year++;
+            }
+            return $year . " (" . sprintf('%02d', $week) . ")";
         }
 
         /**
@@ -28,15 +36,22 @@
             $start  = clone $start;
             $end    = clone $end;
 
+            $interval = new DateInterval("P1" . ($mode == "DAY" ? "D" : "W"));
+
             $r = [];
             $start  ->setTime(0, 0, 0, 0);
             $end    ->setTime(0, 0, 0, 0);
+
+            $i = clone $interval;
+            $i->invert = 1;
+
+            $start  ->add($i);
 
             $curr = $start;
             while($curr->getTimestamp() < $end->getTimestamp()) {
                 $r[] = self::formatWeek($curr);
 
-                $curr->add(new DateInterval("P1".($mode == "DAY" ? "D" : "W")));
+                $curr->add($interval);
             }
             return $r;
         }
