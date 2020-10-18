@@ -11,7 +11,7 @@ include __DIR__ . "/wa.php";
     <script src="ext/moment.js"></script>
     <script src="ext/chart.js"></script>
     <script src="js.js"></script>
-    <base href="http://localhost/WhatsAppChatGenerator/">
+    <base href="http://localhost/WhatsAppChartGenerator/">
     <link href="ext/bootstrap.min.css" rel="stylesheet">
 </head>
 
