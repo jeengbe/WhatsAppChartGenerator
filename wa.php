@@ -12,7 +12,7 @@
          */
         static function getContacts() {
             $r = [];
-            $sql = self::$db->query("SELECT con._id as id, con.jid as jid, con.status as status, con.status_timestamp as statusTimestamp, substr(con.jid, 0, instr(con.jid, '@')) as num, con.display_name as displayName FROM wa_contacts as con WHERE number IS NOT NULL AND con.is_whatsapp_user = 1");
+            $sql = self::$db->query("SELECT con._id as id, con.jid as jid, con.status as status, con.status_timestamp as statusTimestamp, substr(con.jid, 0, instr(con.jid, '@')) as num, con.display_name as displayName FROM wa_contacts as con WHERE number IS NOT NULL AND con.is_whatsapp_user = 1 order by displayName");
             while($row = $sql->fetchArray(SQLITE3_ASSOC)) {
                 $r[] = new Contact($row);
             };

@@ -10,6 +10,11 @@ $source = MsgStore::getDate();
 $con  = WA::getContactByJid($_POST["jid"]);
 $msgs = $con->getMessages();
 
+if(count($msgs) == 0) {
+  echo "No conversation with {$con->getDisplayName()}.";
+  die();
+}
+
 $start  = $msgs[0]->getTimestamp();
 $end    = new DateTime();
 
