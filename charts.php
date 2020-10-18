@@ -79,7 +79,7 @@
                   ]
                 ],
                 "animation" => [
-                  "onProgress" => "ONPROGRESSCALLBACK",
+                  "onProgress" => "DRAWDATECALLBACK",
                 ],
                 "tooltips" => [
                   "mode" => "index",
@@ -91,16 +91,16 @@
                   "cornerRadius" => 4,
                   "footerFontStyle" => "normal"
                 ],
-              ],
+              ]
             ];
             $config = json_encode($config);
 
 
             foreach([
-              "ONPROGRESSCALLBACK"    => "c.fillStyle=\"#666\";c.font = \"12px sans-serif\";c.fillText(\"Source: " . date("d.m.Y H:i", $this->date->getTimestamp()) . "\", 4, 16)",
-              "TOOLTIPCUSTOMCALLBACK" => "console.log(_)",
-              "TOOLIPLABELCALLBACK"   => "if(_.datasetIndex > 0) {return \" \"+__.datasets[_.datasetIndex].label+\": \"+_.yLabel;} return null;",
-              "TOOLTIPFOOTERCALLBACK" => "return \"Total: \" + _[0].yLabel"
+              "DRAWDATECALLBACK"      => "c.fillStyle=\"#666\";c.font = \"12px Open Sans\";c.fillText(\"Source: " . date("d.m.Y H:i", $this->date->getTimestamp()) . "\", 4, 8)",
+              "TOOLTIPCUSTOMCALLBACK" => "",
+              "TOOLIPLABELCALLBACK"   => "if(_.datasetIndex > 0) {return \" \"+__.datasets[_.datasetIndex].label+\": \"+_.yLabel + \" (\"+ Math.floor((_.yLabel/__.datasets[0].data[_.index])*100) + \"%)\";} return null;",
+              "TOOLTIPFOOTERCALLBACK" => "return \"Total: \" + __.datasets[0].data[_[0].index]"
             ] as $k => $v) {
               $config = str_replace("\"$k\"", "(_,__) => { $v }", $config);
             }

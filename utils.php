@@ -46,6 +46,7 @@
             $i->invert = 1;
 
             $start  ->add($i);
+            $end    ->add($interval);
 
             $curr = $start;
             while($curr->getTimestamp() < $end->getTimestamp()) {
